@@ -1,0 +1,256 @@
+﻿@model IEnumerable<Online_Flight_Reservation_System.Models.UserBooking>
+
+@{
+                /**/
+
+                ViewBag.Title = "CheckAvailability";
+                Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<br />
+<h2>Flight Details</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Source)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartureDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArrivalDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RouteName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightType)
+        </th>
+        @*<th>
+                Check Availability
+            </th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Source)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartureDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ArrivalDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RouteName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightType)
+            </td>
+        </tr>
+
+    }
+</table>
+
+
+<br />
+<center> <h4 class="btn btn-warning" style="width:100%;">Current Flight Rates And Availability</h4></center>
+<br />
+
+<form action="CheckAvailability" method="POST" onSubmit=" return Check(); ">
+
+    <table class="table">
+
+        <tr>
+            <th></th>
+            <th>First Class</th>
+            <th>Business Class</th>
+            <th>Economy Class</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <th>Price</th>
+                <td>&#8377;@Html.DisplayFor(modelItem => item.FCPrice) / Per Seat</td>
+                <td>&#8377;@Html.DisplayFor(modelItem => item.BCPrice) / Per Seat</td>
+                <td>&#8377;@Html.DisplayFor(modelItem => item.ECPrice) / Per Seat</td>
+            </tr>
+
+            <tr>
+                <th> Available Seats &nbsp;<button type="button" onclick="refresh()" class="btn btn-success"><i class="glyphicon glyphicon-refresh"></i></button> </th>
+                <td><div class="btn btn-info">@Html.DisplayFor(modelItem => item.AvailFCSeats)</div></td>
+                <td><div class="btn btn-success">@Html.DisplayFor(modelItem => item.AvailBCSeats)</div></td>
+                <td><div class="btn btn-warning">@Html.DisplayFor(modelItem => item.AvailECSeats)</div></td>
+            </tr>
+
+            <tr>
+                @*<th>Choose Seats   <br /><br /> Type Seat Count / Use Mouse Controlls (  <i class="glyphicon glyphicon-resize-vertical"></i>  )  </th>*@
+                <th>Choose Seats</th>
+                <th colspan="3"><center> Type Seat Count / Use Mouse Controlls (  <i class="glyphicon glyphicon-resize-vertical"></i>  )  </center> </th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="form-group">
+                        @if (ViewBag.BookedFCSeats != null)
+                        {
+                            <input onchange="FCP()" id="BookedFCSeats" name="BookedFCSeats" type="number" min="0" max=@ViewBag.BookedFCSeats step="1" value="0" /><br /><br />
+                            <label>&#8377;&nbsp;</label><label id="FCP"> 0/-</label>
+                        }
+                        else
+                        {
+                            <input id="BookedFCSeats" name="BookedFCSeats" value="0" style="display:none;" />
+                            <div class="btn btn-danger">@Html.DisplayFor(modelItem => item.AvailFCSeats)</div>
+                        }
+
+                    </div>
+                </td>
+
+                <td>
+                    <div class="form-group">
+
+                        @if (ViewBag.BookedBCSeats != null)
+                        {
+                            <input onchange="BCP()" id="BookedBCSeats" name="BookedBCSeats" type="number" min="0" max=@ViewBag.BookedBCSeats step="1" value="0" /><br /><br />
+                            <label>&#8377;&nbsp;</label><label id="BCP"> 0/-</label>
+                        }
+                        else
+                        {
+                            <input id="BookedBCSeats" name="BookedBCSeats" value="0" style="display:none;" />
+                            <div class="btn btn-danger">@Html.DisplayFor(modelItem => item.AvailBCSeats)</div>
+                        }
+                    </div>
+                </td>
+
+                <td>
+                    <div class="form-group">
+
+                        @if (ViewBag.BookedECSeats != null)
+                        {
+                            <input onchange="ECP()" id="BookedECSeats" name="BookedECSeats" type="number" min="0" max=@ViewBag.BookedECSeats step="1" value="0" /><br /><br />
+                            <label>&#8377;&nbsp;</label><label id="ECP"> 0/-</label>
+                        }
+                        else
+                        {
+                            <input id="BookedECSeats" name="BookedECSeats" value="0" style="display:none;" />
+                            <div class="btn btn-danger">@Html.DisplayFor(modelItem => item.AvailECSeats)</div>
+                        }
+
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Total Price</th>
+                <td>
+                    <div class="form-group">
+                        <input id="ScheduleID" name="ScheduleID" value=@ViewBag.ScheduleID style="display:none;" />
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+
+                        <label>&#8377;&nbsp;</label><label id="TotalPrice"> 0/-</label>
+                        <input id="TotalPriceTF" name="TotalPriceTF" type="text" value="0" style="display:none;" />
+
+                    </div>
+                </td>
+                <td>
+                    <div class="form-group">
+                        <br />
+                        <button type="submit" class="btn btn-info">Next&nbsp;&nbsp;<i class="glyphicon glyphicon-menu-right"></i></button>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+
+</form>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script type="text/javascript">
+
+    window.onload = function () { FCP(); BCP(); ECP(); TotalPrice(); }
+
+    function Check()
+    {
+        var FCSeats = document.getElementById("BookedFCSeats").value;
+        var BCSeats = document.getElementById("BookedBCSeats").value;
+        var ECSeats = document.getElementById("BookedECSeats").value;
+
+        if (FCSeats == "0" && BCSeats == "0" && ECSeats == "0")
+        {
+            alert("Please Select Seats");
+            return false;
+        }
+        else
+        {
+            var r = confirm("Are You Sure ?");
+            if (r == true) { return true; }
+            else { return false; }
+        }
+    }
+
+    function refresh(){window.location.reload();}
+
+    function FCP()
+    {
+        var FCSeats = document.getElementById("BookedFCSeats").value;
+        $('#FCP').text((@ViewBag.FCPrice* FCSeats) + "/-");
+        TotalPrice();
+    }
+    function BCP() {
+        var BCSeats = document.getElementById("BookedBCSeats").value;
+        $('#BCP').text((@ViewBag.BCPrice* BCSeats) + "/-");
+        TotalPrice();
+    }
+    function ECP() {
+        var ECSeats = document.getElementById("BookedECSeats").value;
+        $('#ECP').text((@ViewBag.ECPrice* ECSeats) + "/-");
+        TotalPrice();
+    }
+    function TotalPrice()
+    {
+        var FCSeats = document.getElementById("BookedFCSeats").value;
+        var BCSeats = document.getElementById("BookedBCSeats").value;
+        var ECSeats = document.getElementById("BookedECSeats").value;
+
+        var TotalPrice = 0;
+
+        if (FCSeats != null) { TotalPrice += @ViewBag.FCPrice* FCSeats; }
+        if (BCSeats != null) { TotalPrice += @ViewBag.BCPrice* BCSeats; }
+        if (ECSeats != null) { TotalPrice += @ViewBag.ECPrice* ECSeats; }
+
+        $('#TotalPrice').text(TotalPrice + "/-");
+        //$('#TotalPriceTF').value = TotalPrice;
+        document.getElementById("TotalPriceTF").value = TotalPrice;
+
+    }
+
+</script>
+
+
+

@@ -1,0 +1,121 @@
+﻿@model IEnumerable<Online_Flight_Reservation_System.Models.Passenger>
+
+@{
+    /**/
+
+    ViewBag.Title = "PaySlip";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<div id="print">
+    <br />
+    <br />
+    <h2>Your Ticket Details</h2>
+
+
+    <hr />
+
+    <br />
+    <center> <h4 class="btn btn-warning" style="width:100%;">Flight Details</h4></center>
+    <br />
+
+    <table class="table">
+        <tr class="row">
+            <th>Flight Name</th>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Departure Date</th>
+            <th>Arrival Date</th>
+            <th>Flight Type</th>
+            <th>Flight Route</th>
+            <th>Trip Price</th>
+        </tr>
+        <tr class="row">
+            <td>@ViewBag.FlightName</td>
+            <td>@ViewBag.Source</td>
+            <td>@ViewBag.Destination</td>
+            <td>@ViewBag.DepartureDateTime</td>
+            <td>@ViewBag.ArrivalDateTime</td>
+            <td>@ViewBag.FlightType</td>
+            <td>@ViewBag.RouteName</td>
+            <td>&#8377;@ViewBag.TripPrice/-</td>
+        </tr>
+    </table>
+
+    <hr />
+
+    <br />
+    <center> <h4 class="btn btn-info" style="width:100%;">Passenger Details</h4></center>
+    <br />
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Class)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SeatNo)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Class)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeatNo)
+                </td>
+            </tr>
+        }
+
+
+    </table>
+
+    <hr />
+
+</div>
+
+
+<div id="btndiv">
+    <br />
+    <center>
+        <button class="btn btn-success" onclick="Printx();">Print Ticket</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="Button" value="Book Another Ticket" class="btn btn-warning" onclick="location.href='@Url.Action("UserListFlightDetails", "FlightUser")'" />
+    </center>
+    <br />
+
+</div>
+
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+
+    function Printx() {
+        //$("#btndiv").hide();
+        document.getElementById('btndiv').style.visibility = 'hidden';
+        window.print();
+        document.getElementById('btndiv').style.visibility = 'visible';
+    }
+</script>

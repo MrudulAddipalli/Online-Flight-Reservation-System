@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Online_Flight_Reservation_System.Models.Flight>
+
+@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "ListFlightDetails";
+                Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<br />
+<h2>List Admin Flight Details</h2>
+<br />
+
+
+<p>
+    <button class="btn btn-warning" onclick="location.href='@Url.Action("AddFlight", "FlightAdmin" )';return false;"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Add New Flight</button>
+</p>
+
+<br />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Source)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstimatedTime)
+        </th>
+        <th>
+            Seat Capacity /<br /> Seat Price
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightType)
+        </th>
+        <th>
+            Schdeule/Route Details
+        </th>
+        <th>
+            Passenger Details
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Source)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Destination)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EstimatedTime)
+            </td>
+
+
+            <td>
+                <table>
+                    <tr>
+                        <td> <label>Total</label></td>
+                        <td class="btn btn-primary">  @Html.DisplayFor(modelItem => item.SeatCapacity) Seats</td>
+
+                    </tr>
+                    <tr>
+                        <td> <label>FirstClass</label></td>
+                        <td class="btn btn-outline-success">  @Html.DisplayFor(modelItem => item.FirstSeats) /  &#8377;@Html.DisplayFor(modelItem => item.FCPrice)/-</td>
+                        @*<td class="btn btn-primary">  @Html.DisplayFor(modelItem => item.FCPrice)</td>*@
+                    </tr>
+                    <tr>
+                        <td> <label>Business</label></td>
+                        <td class="btn btn-outline-danger">  @Html.DisplayFor(modelItem => item.BusinessSeats) /  &#8377;@Html.DisplayFor(modelItem => item.BCPrice)/-</td>
+                        @*<td class="btn btn-primary">  @Html.DisplayFor(modelItem => item.BCPrice)</td>*@
+                    </tr>
+                    <tr>
+                        <td> <label>Economy</label></td>
+                        <td class="btn btn-outline-warning">  @Html.DisplayFor(modelItem => item.EconomySeats) /  &#8377;@Html.DisplayFor(modelItem => item.ECPrice)/-</td>
+                        @*<td class="btn btn-primary">  @Html.DisplayFor(modelItem => item.ECPrice)</td>*@
+                    </tr>
+                </table>
+
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.FlightType)
+            </td>
+
+
+
+            <td>
+                <button class="btn btn-success" onclick="location.href='@Url.Action("SchdeuleFlight", "FlightAdmin" , new {  id = item.FlightID } )';return false;"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;View Schdeule/Route Details</button>
+                @*@Html.ActionLink("Schdeule Details", "SchdeuleFlight", new {  id = item.FlightID } )*@
+            </td>
+
+            <td>
+                <button class="btn btn-info" onclick="location.href='@Url.Action("ViewBooking", "FlightAdmin" , new {  id = item.FlightID } )';return false;"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;View Booking Details</button>
+                @*@Html.ActionLink("Passenger Details", "ViewPassenger", new { id = item.FlightID })*@
+            </td>
+
+
+            <td>
+
+                <button class="btn btn-primary" onclick="location.href='@Url.Action("EditFlight", "FlightAdmin" , new {  id = item.FlightID } )';return false;"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Edit</button>
+
+                @*<button class="btn btn-secondary" onclick="location.href='@Url.Action("ViewFlight", "FlightAdmin" , new {  id = item.FlightID } )';return false;"><i class="glyphicon glyphicon-search"></i>&nbsp;&nbsp;View Flight Details</button>*@
+
+                <br /><br />
+
+                <button class="btn btn-danger" onclick="location.href='@Url.Action("DeleteFlight", "FlightAdmin" , new {  id = item.FlightID } )';return false;"><i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Delete</button>
+
+                @*@Html.ActionLink("Edit", "EditFlight", new { id = item.FlightID }) |
+                    @Html.ActionLink("View", "ViewFlight", new { id = item.FlightID }) |
+                    @Html.ActionLink("Delete", "DeleteFlight", new { id = item.FlightID })*@
+            </td>
+        </tr>
+    }
+
+</table>
+

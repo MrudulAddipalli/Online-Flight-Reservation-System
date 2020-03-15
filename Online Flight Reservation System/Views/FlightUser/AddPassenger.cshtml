@@ -1,0 +1,239 @@
+﻿
+@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "AddPassenger";
+                Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<br />
+<h2>Add Passenger Details</h2>
+<br /><br />
+
+@{ var count = 1;}
+
+
+<body>
+    <form onsubmit="return store();">
+
+        <div class="form-group">
+
+            <table class="table table-bordered" id="dynamictable">
+
+                <tr class="row">
+                    <th>No.</th>
+                    <th>Class</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                </tr>
+
+
+                @for (int i = 1; i <= Convert.ToInt32(ViewBag.FCSeats); i++, count++)
+                {
+                    <tr class="row">
+
+                        <td>
+                            <span class="btn btn-warning">Passenger : @count</span>
+                        </td>
+
+                        <td>
+                            <span class="btn btn-success">First Class</span>
+                            <input type="text" id="Flightclass+@count" value="First Class" text="First Class" style="display:none;" />
+                        </td>
+
+                        <td>
+                            <input type="text" id="Name+@count" placeholder="Enter Name" class="form-control" required maxlength="30" pattern="^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$" />
+                        </td>
+
+                        <td>
+                            <input id="Age+@count" type="number" min="5" max="150" step="1" class="form-control" required />
+                        </td>
+
+                        <td>
+                            <select id="Gender+@count" class="form-control" required>
+                                <option value="" selected></option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                }
+
+
+                @for (int j = 1; j <= Convert.ToInt32(ViewBag.BCSeats); j++, count++)
+                {
+                    <tr class="row">
+
+                        <td>
+                            <span class="btn btn-warning">Passenger : @count  </span>
+                        </td>
+
+                        <td>
+                            <span class="btn btn-primary">Business Class</span>
+                            <input type="text" id="Flightclass+@count" value="Business Class" text="Business Class" style="display:none;" />
+                        </td>
+
+                        <td>
+                            <input type="text" id="Name+@count" placeholder="Enter Name" class="form-control" required maxlength="30" pattern="^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$" />
+                        </td>
+
+                        <td>
+                            <input id="Age+@count" type="number" min="5" max="150" step="1" class="form-control" required />
+                        </td>
+
+                        <td>
+                            <select id="Gender+@count" class="form-control" required>
+                                <option value="" selected></option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </td>
+
+                    </tr>
+
+                }
+
+
+                @for (int z = 1; z <= Convert.ToInt32(ViewBag.ECSeats); z++, count++)
+                {
+
+                    <tr class="row">
+
+                        <td>
+                            <span class="btn btn-warning">Passenger : @count</span>
+                        </td>
+
+                        <td>
+                            <span class="btn btn-danger">Economy Class</span>
+                            <input type="text" id="Flightclass+@count" value="Economy Class" text="Economy Class" style="display:none;" />
+                        </td>
+
+                        <td>
+                            <input type="text" id="Name+@count" placeholder="Enter Name" class="form-control" required maxlength="30" pattern="^([A-Za-z]+[,.]?[ ]?|[A-Za-z]+['-]?)+$" />
+                        </td>
+
+                        <td>
+                            <input id="Age+@count" type="number" min="5" max="150" step="1" class="form-control" required />
+                        </td>
+
+                        <td>
+                            <select id="Gender+@count" class="form-control" required>
+                                <option value="" selected></option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </td>
+
+                    </tr>
+                }
+
+
+
+            </table>
+
+
+        </div>
+
+        <center>  <div class="form-group">  <input type="submit" value="Submit Details" class="btn btn-info" />  </div>  </center>
+
+    </form>
+
+</body>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+
+    var BookingID = @ViewBag.BookingID;
+    var FCSeats = @ViewBag.FCSeats;
+    var BCSeats = @ViewBag.BCSeats;
+    var ECSeats = @ViewBag.ECSeats;
+
+    $(document).ready(function ()
+    {
+
+
+
+    });
+
+    function store()
+    {
+        var x = 1;
+        var y = FCSeats + BCSeats + ECSeats;
+        console.log("x = " + x + "  y = " + y);
+        var Flightclass = [];
+        var Name = [];
+        var Age = [];
+        var Gender = [];
+
+
+
+        for (var i = 1; i <= y; i++,x++)
+        {
+            Flightclass.push(document.getElementById("Flightclass+" + i + "").value);
+
+            Name.push(document.getElementById("Name+" + i + "").value);
+
+            Age.push(document.getElementById("Age+" + i + "").value);
+
+            Gender.push(document.getElementById("Gender+" + i + "").value);
+
+        }
+
+        console.log("Flight Class Array" + Flightclass);
+        console.log("Name Class Array" + Name);
+        console.log("Age Class Array" + Age);
+        console.log("Gender Class Array" + Gender);
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddPassenger", "FlightUser")',
+            data:
+            {
+                BookingID: BookingID,
+                Flightclass: Flightclass,
+                Name: Name,
+                Age: Age,
+                Gender: Gender,
+            },
+            traditional:true,
+            datatype: 'json',
+            success: function (result)
+            {
+                if (result == "login")
+                {
+                     window.location.href = '@Url.Action("Login", "Login")';
+                }
+
+                if(result=="xxx")
+                {
+                    window.location.href = '@Url.Action("CheckCreditCard", "FlightUser")';
+                }
+                else
+                {
+                    var url = '@Url.Action("Payment", "FlightUser", new { id = "__id__" })';
+                    window.location.href = url.replace('__id__', BookingID );
+                }
+
+            },
+            error: function (result) {
+                alert('Fail');
+            }
+        });
+
+        return false;
+    }
+
+</script>
+
+@*<script type="text/javascript">
+    function preventBack() { Window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    Window.onunload = function () { null };
+</script>*@

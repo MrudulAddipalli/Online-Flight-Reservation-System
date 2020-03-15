@@ -1,0 +1,79 @@
+﻿@model Online_Flight_Reservation_System.Models.Schedule
+
+@{
+    ViewBag.Title = "AddSchedule";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+
+    <br /><br />
+    <h2>Add Schedule</h2>
+    <br />
+    <div>
+        <input type="Button" value="Go Back" class="btn btn-warning" onclick="location.href='@Url.Action("SchdeuleFlight", "FlightAdmin" , new { id = Convert.ToInt32(@ViewBag.FlightID) } )'" />
+    </div>
+    <hr />
+
+
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+       
+    
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.FlightID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FlightID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FlightID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DepartureDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.DepartureDateTime,   new { @placeholder = " 2019-12-30 23:59:59 ", @class = "form-control", maxlength = "19" })
+            @Html.ValidationMessageFor(model => model.DepartureDateTime, "", new { @class = "text-danger" })
+        </div>
+    </div> 
+    
+    
+    
+    @*<div class="form-group">
+        @Html.LabelFor(model => model.DepartureDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.DepartureDateTime, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DepartureDateTime, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ArrivalDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+           @Html.TextBoxFor(model => model.ArrivalDateTime,   new { @placeholder = "  2019-12-30 23:59:59 ", @class = "form-control", maxlength = "19" })
+            @Html.ValidationMessageFor(model => model.ArrivalDateTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.RouteName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.RouteName, new { htmlAttributes = new { @placeholder = " Mumbai-Kolkata-Delhi ", @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.RouteName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-info" />&nbsp;&nbsp;&nbsp;
+                <input type="Button" value="Go Back" class="btn btn-warning" onclick="location.href='@Url.Action("SchdeuleFlight", "FlightAdmin" , new { id = Convert.ToInt32(@ViewBag.FlightID) } )'" />
+            </div>
+        </div>
+</div>
+}

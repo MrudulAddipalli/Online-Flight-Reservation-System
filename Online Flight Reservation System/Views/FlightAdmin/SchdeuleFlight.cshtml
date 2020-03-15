@@ -1,0 +1,69 @@
+﻿@model IEnumerable<Online_Flight_Reservation_System.Models.Schedule>
+
+@{
+    ViewBag.Title = "SchdeuleFlight";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<br />
+<h2>Flight Schdeule Details</h2>
+<br />
+
+<p>
+    <button class="btn btn-warning" onclick="location.href='@Url.Action("AddSchedule", "FlightAdmin", new { id = Convert.ToInt32(@ViewBag.FlightID) } )';return false;"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;Add New Schedule</button>
+    <input type="Button" value="Go Back" class="btn btn-success" onclick="location.href='@Url.Action("ListFlightDetails", "FlightAdmin")'" />
+</p>
+<br />
+
+
+<table class="table">
+    <tr>
+        @*<th>
+            @Html.DisplayNameFor(model => model.FlightID)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.DepartureDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArrivalDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RouteName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.FlightID)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartureDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArrivalDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RouteName)
+        </td>
+
+
+
+        <td>
+            
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("EditSchedule", "FlightAdmin" , new { id = item.ScheduleID } )';return false;"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;Edit</button>
+            
+            <button class="btn btn-danger" onclick="location.href='@Url.Action("DeleteSchedule", "FlightAdmin" , new { id = item.ScheduleID } )';return false;"><i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Delete</button>
+
+        </td>
+
+
+        @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ScheduleID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ScheduleID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ScheduleID })
+        </td>*@
+    </tr>
+}
+
+</table>

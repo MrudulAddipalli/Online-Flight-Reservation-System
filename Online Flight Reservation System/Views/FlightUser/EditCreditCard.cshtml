@@ -1,0 +1,73 @@
+﻿@model Online_Flight_Reservation_System.Models.CreditCard
+
+@{
+    ViewBag.Title = "EditCreditCard";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<br />
+<h2>Edit Credit Card Details</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CCNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CCNumber, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CCNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValidFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValidFrom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ValidFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValidTo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValidTo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ValidTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <label id="error" class="text-success">If you want to update your credit card details then edit respective details and click [ Edit Credit Card ] </label><br />
+                <input type="submit" value="Edit Credit Card" onclick="return ok();" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.UpdateMessage != null)
+{
+    <script type="text/javascript">
+        window.onload = function () { alert("Details Updated Successfully"); }
+    </script>
+}
+
+<script type="text/javascript">
+
+    function ok() {
+        var r = confirm("Do You Want To Edit Credit Card Details ?");
+        if (r == true) { this.form.submit(); }
+        else { return false; }
+    }
+
+</script>

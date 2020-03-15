@@ -1,0 +1,140 @@
+﻿@model IEnumerable<Online_Flight_Reservation_System.Models.UserBooking>
+
+@{
+    /**/
+
+    /**/
+
+    /**/
+
+    ViewBag.Title = "Search Flight";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<br />
+<h2>Search Flight</h2>
+<hr />
+
+
+@using (Html.BeginForm())
+{
+
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+
+            <form action="UserListFlightDetails" method="POST">
+                <center>
+                    <table>
+                        <tr>
+                            <th>Source<br /></th>
+                            <th></th>
+                            <th>Destination</th>
+                            <th></th>
+                            <th>Date Of Journey</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+
+                        <tr>
+                            <td>@Html.TextBox("Source", null, new { @class = "form-control" , maxlength="10"})</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td>@Html.TextBox("Destination", null, new { @class = "form-control", maxlength = "10" })</td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td><input type="date" name="DOJ" class="form-control" /></td>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                            <td><input type="submit" value="Search Flights" class="btn btn-info" /></td>
+                        </tr>
+
+
+                    </table>
+                </center>
+
+            </form>
+
+            <br /><hr /><br />
+
+        </div>
+
+    </div>
+
+
+}
+
+@if (ViewBag.UserID != null)
+{
+    <script type="text/javascript">
+        window.onload = function ()
+        {
+            alert("Your Login UserId Is - @ViewBag.UserID");
+        }
+    </script>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<body>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FlightName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Source)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Destination)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartureDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ArrivalDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RouteName)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(model => model.FlightType)
+            </th>
+            <th>
+                Check Availability
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FlightName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Source)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Destination)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RouteName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FlightType)
+                </td>
+                <td>
+                    <button class="btn btn-warning" onclick="location.href='@Url.Action("CheckAvailability", "FlightUser" , new {  id = item.ScheduleID } )';return false;"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;Check Availability</button>
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>

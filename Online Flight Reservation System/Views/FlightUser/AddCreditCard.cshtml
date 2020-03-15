@@ -1,0 +1,64 @@
+﻿@model Online_Flight_Reservation_System.Models.CreditCard
+
+@{
+    ViewBag.Title = "AddCreditCard";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<br />
+<h2>AddCreditCard</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CCNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CCNumber, new { htmlAttributes = new { @placeholder = "Enter Credit Card Number 12 Digits", @class = "form-control" , type = "number", maxlength = "999999999999", required = "required" } })
+                @Html.ValidationMessageFor(model => model.CCNumber, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValidFrom, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValidFrom, new { htmlAttributes = new { @placeholder = "09/2019"  ,  @class = "form-control", type = "text", maxlength = "7", required = "required" } })
+                @Html.ValidationMessageFor(model => model.ValidFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ValidTo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ValidTo, new { htmlAttributes = new { @placeholder = "09/2024", @class = "form-control",type="text", maxlength="7" ,required="required"} })
+                @Html.ValidationMessageFor(model => model.ValidTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @placeholder = "10500", @class = "form-control", type = "number", min = "1000", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Add Credit Card Details" class="btn btn-info" />
+                <input type="button" class="btn btn-warning" onclick="back();" value="Back"/>
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+
+    function back()
+    {
+        window.history.back();
+    }
+</script>

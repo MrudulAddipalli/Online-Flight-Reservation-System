@@ -1,0 +1,121 @@
+﻿@model IEnumerable<Online_Flight_Reservation_System.Models.UserBooking>
+
+@{
+    ViewBag.Title = "ReservationHistory";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+
+<br />
+<h2>ReservationHistory</h2>
+<br/>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FlightName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Source)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Destination)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepartureDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ArrivalDateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RouteName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TripPrice)
+        </th>
+        <th>
+            Passenger Details
+        </th>
+        <th>
+            Actions
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlightName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Source)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Destination)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartureDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ArrivalDateTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RouteName)
+        </td>        
+        <td>
+            @Html.DisplayFor(modelItem => item.TripPrice)
+        </td>
+        <td>
+            <button class="btn btn-success" onclick="location.href='@Url.Action("ViewPassenger", "FlightUser" , new {  id = item.BID } )';return false;"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;Passenger Details</button>
+        </td>
+        <td>
+
+            <button class="btn btn-danger" onclick="return deleteX(@item.BID);"><i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;Cancel Ticket</button>
+
+            <br /><br />
+
+            @if (item.BookStatus.ToString() == "0")
+            {
+                <button class="btn btn-primary" onclick="location.href='@Url.Action("Payment", "FlightUser" , new {  id = item.BID } )';return false;"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;&nbsp;Pay</button>
+            }
+            
+        </td>
+    </tr>
+}
+
+</table>
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+
+<script type="text/javascript">
+    //location.href='@*@Url.Action("CancelTicket", "FlightUser" , new {  id = item.BID } )*@';return false;
+
+    function deleteX(BID)
+    {
+        var r = confirm("Are You Sure ?");
+        if (r == true)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("CancelTicket", "FlightUser")',
+                data:
+                {
+                    BookingID: ''+BID+'',
+                },
+                traditional:true,
+                datatype: 'json',
+                success: function (result)
+                {
+                    if (result == "ok" ) { alert("Ticket Cancelled Sucessfully"); }
+                    if (result != "ok" ) { alert("Ticket Cancelled Sucessfully And Your Ticket Amout of Rupees. " + result + "/- Has Been Refunded To Your Bank"); }
+                    location.reload(true);
+                },
+                error: function (result) {
+                    alert('Fail');
+                }
+            });
+        }
+        else { return false; }
+    }
+</script>

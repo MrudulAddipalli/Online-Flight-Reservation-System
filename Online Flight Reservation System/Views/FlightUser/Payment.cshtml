@@ -1,0 +1,89 @@
+﻿@model Online_Flight_Reservation_System.Models.CreditCard
+
+@{
+    ViewBag.Title = "Payment";
+    Layout = "~/Views/Shared/UserLayout.cshtml";
+}
+<br />
+<h2>Payment</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BID, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.BID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Balance, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Balance, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Balance, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TripPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TripPrice, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.TripPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <label id="error" class="text-danger"></label><br />
+                <input type="submit" onsubmit="return check();" class="btn btn-success" value="&nbsp;Pay&nbsp;&nbsp;&#8377;@ViewBag.TripPrice" />&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-warning" onclick="location.href='@Url.Action("ReservationHistory", "FlightUser")';return false;">Cancel</button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.TripPrice != null)
+{
+    <script type="text/javascript">
+        window.onload = function ()
+        {
+            if (@ViewBag.TripPrice > @ViewBag.Balance)
+            {
+                 $('#error').text("Your Account Balance Is Low [ After Updating Your Credit Card Balance Go To Reservation Hsitory To Book Your Seat ]");
+            }
+        }
+    </script>
+}
+
+<script type="text/javascript">
+
+    function check()
+    {
+
+        if (@ViewBag.TripPrice > @ViewBag.Balance)
+        {
+            alert("Your Account Balance Is Low");
+            return false;
+        }
+        else
+        {
+            var r = confirm("Pay"+" "+"@ViewBag.TripPrice"+"/-");
+            if (r == true) { return true; }
+            else { return false; }
+        }
+    }
+
+</script>
+
+@*<script type="text/javascript">
+    function preventBack() { Window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    Window.onunload = function () { null };
+</script>*@

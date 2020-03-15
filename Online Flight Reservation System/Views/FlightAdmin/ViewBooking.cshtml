@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Online_Flight_Reservation_System.Models.UserBooking>
+
+@{
+    ViewBag.Title = "ViewBooking";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+<br />
+<h2>Booking Details</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TripPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FCSeats)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BCSeats)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ECSeats)
+        </th>
+        <th>
+            Passenger Details
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BID)
+        </td>
+        <td class="btn btn-primary">
+            &#8377;@Html.DisplayFor(modelItem => item.TripPrice)/-
+        </td>
+        <td class="btn btn-outline-success">
+            @Html.DisplayFor(modelItem => item.FCSeats)
+        </td>
+        <td class="btn btn-outline-danger">
+            @Html.DisplayFor(modelItem => item.BCSeats)
+        </td>
+        <td class="btn btn-outline-warning">
+            @Html.DisplayFor(modelItem => item.ECSeats)
+        </td>
+        <td>
+            <button class="btn btn-info" onclick="location.href='@Url.Action("ViewPassenger", "FlightUser" , new {  id = item.BID } )';return false;"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;&nbsp;View Passenger Details</button>
+        </td>
+        
+    </tr>
+}
+
+</table>

@@ -1,0 +1,175 @@
+﻿@model Online_Flight_Reservation_System.Models.Flight
+
+@{
+    ViewBag.Title = "Add Flight";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+ <div class="form-horizontal">
+    <br /><br />
+    <h2>Add Flight Details</h2>
+    <br />
+    <div>
+        <input type="Button" value="Go Back" class="btn btn-warning" onclick="location.href='@Url.Action("ListFlightDetails", "FlightAdmin")'" />
+        @*@Html.ActionLink("Go Back", "ListFlightDetails")*@
+    </div>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.FlightName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FlightName, new { htmlAttributes = new { @placeholder = "Enter Flight Name", @class = "form-control" ,type="text", maxlength="30" ,required="required"} })
+            @Html.ValidationMessageFor(model => model.FlightName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Source, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Source, new { htmlAttributes = new { @placeholder = "Enter Flight Source", @class = "form-control", type = "text", maxlength = "30", required = "required" } })
+            @Html.ValidationMessageFor(model => model.Source, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Destination, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Destination, new { htmlAttributes = new { @placeholder = "Enter Flight Destination", @class = "form-control", type = "text", maxlength = "30", required = "required" } })
+            @Html.ValidationMessageFor(model => model.Destination, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EstimatedTime, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.EstimatedTime, new { htmlAttributes = new {  @class = "form-control",placeholder="HH:MM", type = "text", maxlength = "5", required = "required" } })
+            @Html.ValidationMessageFor(model => model.EstimatedTime, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.SeatCapacity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SeatCapacity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SeatCapacity, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FlightType, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+
+            @Html.RadioButtonFor(model => model.FlightType, "International")
+            @Html.Label("International")
+            <br />
+            @Html.RadioButtonFor(model => model.FlightType, "Domestic")
+            @Html.Label("Domestic")
+
+
+            @Html.ValidationMessageFor(model => model.FlightType, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <table style="width:900px;">
+            <tr>
+                <td class = "control-label col-md-2"><b>First Class<b></b></td>
+                <td >
+                    @*@Html.LabelFor(model => model.FirstSeats, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FirstSeats, new { htmlAttributes = new { @placeholder = "Total First Class Seats 30 ", @class = "form-control", type = "number", max = "500", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.FirstSeats, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+                <td>
+                    @*@Html.LabelFor(model => model.FCPrice, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FCPrice, new { htmlAttributes = new { @placeholder = " First Class Seat Price ", @class = "form-control", type = "number", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.FCPrice, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+            </tr>
+
+           
+
+            <tr>
+                <td class = "control-label col-md-2"><b>Business Class</b></td>
+                <td>
+                    @*@Html.LabelFor(model => model.BusinessSeats, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BusinessSeats, new { htmlAttributes = new { @placeholder = "Total Business Class Seats 30 ", @class = "form-control" , type = "number", max = "500", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.BusinessSeats, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+                <td>
+                    @*@Html.LabelFor(model => model.BCPrice, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.BCPrice, new { htmlAttributes = new { @placeholder = " Business Class Seat Price ", @class = "form-control", type = "number", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.BCPrice, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class = "control-label col-md-2"><b>Economy Class</b></td>
+                <td>
+                    @*@Html.LabelFor(model => model.EconomySeats, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EconomySeats, new { htmlAttributes = new { @placeholder = "Total Economy Class Seats 30 ", @class = "form-control", type = "number", max = "500", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.EconomySeats, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+                <td>
+                    @*@Html.LabelFor(model => model.ECPrice, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ECPrice, new { htmlAttributes = new { @placeholder = " Economy Class Seat Price ", @class = "form-control", type = "number", required = "required" } })
+                        @Html.ValidationMessageFor(model => model.ECPrice, "", new { @class = "text-danger" })
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+        @*<div id="first" class="form-group">
+            @Html.LabelFor(model => model.FirstSeats, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FirstSeats, new { htmlAttributes = new { @placeholder = "Total First Class Seats 30 ", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FirstSeats, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="business" class="form-group">
+            @Html.LabelFor(model => model.BusinessSeats, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BusinessSeats, new { htmlAttributes = new { @placeholder = "Total Business Class Seats 30 ", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BusinessSeats, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="economic" class="form-group">
+            @Html.LabelFor(model => model.EconomySeats, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EconomySeats, new { htmlAttributes = new { @placeholder = "Total Economy Class Seats 30 ", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EconomySeats, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-info" />&nbsp;&nbsp;&nbsp;
+                <input type="Button" value="Go Back" class="btn btn-warning" onclick="location.href='@Url.Action("ListFlightDetails", "FlightAdmin")'" />
+            </div>
+        </div>
+    </div>
+}
+
+
